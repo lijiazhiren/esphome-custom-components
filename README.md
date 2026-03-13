@@ -10,6 +10,47 @@ external_components:
 ```
 
 ## 组件列表
+### Gree Ext
+> 格力红外空调扩展库，支持遥控器信号YAP0F
+<details>
+  <summary>配置示例</summary>
+
+```yaml
+external_components:
+  - source: github://ryanh7/esphome-custom-components
+    components: [ gree_ext ]
+
+remote_transmitter:
+  pin: GPIO23 # 示例，小米空调伴侣2
+  carrier_duty_percent: 50%
+  non_blocking: true
+
+remote_receiver:
+  id: rcvr
+  pin: # 示例，小米空调伴侣2
+    number: GPIO17
+    inverted: True
+    mode: INPUT_PULLUP 
+  tolerance: 55%
+  idle: 40ms # 至少20ms
+  filter: 300us
+
+climate:
+  - platform: gree_ext #其他配置参考esphome的IR Remote Climate
+    name: "Gree"
+    receiver_id: rcvr
+    supports_heat: True
+    supports_cool: True
+    model: yap0f
+    supports_vertical_swing: True #是否支持上下扫风
+    supports_horizontal_swing: False #是否支持左右扫风
+    light: # 可选：灯光开关，其他配置参考esphome的Switch
+      name: "空调灯光"
+    xfan: # 可选：干燥/辅热开关，其他配置参考esphome的Switch
+      name: "空调干燥辅热"
+```
+</details>
+
 ### Audio Player
 > esp8266 通过http流播放wav
 <details>
